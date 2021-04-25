@@ -21,11 +21,8 @@ class UI {
           <li class="list-group-item">Blog: ${user.blog} </li>
           <li class="list-group-item">Location: ${user.location} </li>
           <li class="list-group-item">Member Since: ${user.created_at}</li>
-
         </ul>
-
         </div>
-
         </div>
       </div>
     </div>
@@ -34,5 +31,66 @@ class UI {
 
    `;
   }
+
+  //show user repos  
+  showRepos(repos) {
+    let output = '';
+    repos.forEach(repo => {
+      output += `
+      <div class="card card-body mb-2">
+        <div class="row"
+          <div class="col-md-6">
+          <a href="${repo.html_url}" target="_blank">${repo.name}</a>
+          </div>
+          <div class="col-md-6">
+            <span class="badge badge-primary">Stars: ${repo.stargazers_count}</span>
+            <span class="badge badge-secondary">Watchers: ${repo.watchers_count}</span>
+             <span class="badge badge-success"> Forks: ${repo.forks_count}</span>
+          </div>
+        </div>
+      </div>
+      `;
+    });
+
+    //output repos
+    document.getElementById('repos').innerHTML = output;
+  }
+
+  //show alert message
+  showAlert(message, className) {
+    //clear any remaining alert
+    this.clearAlert();
+    //create div
+    const div = document.createElement('div');
+    //add classses
+    div.className = className;
+    //add text
+    div.appendChild(document.createTextNode(message));
+    //get parent
+    const container = document.querySelector('.searchContainer');
+    //get search box
+    const search = document.querySelector('.search');
+    //insert alert
+    container.insertBefore(div, search);
+
+    //alert close after 3 sec
+    setTimeout(() => {
+      this.clearAlert();
+    }, 3000);
+
+  }
+
+  //clear alert 
+  clearAlert() {
+    const currentAlert = document.querySelector('.alert');
+    if (currentAlert) {
+      currentAlert.remove();
+    }
+  }
+
+  clearProfile() {
+    this.profile.innerHTML = '';
+  }
+
 
 }
